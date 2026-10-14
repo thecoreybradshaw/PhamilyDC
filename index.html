@@ -2,8 +2,8 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Phamily Design and Construction | Digital Info Card</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phamily Design and Construction | Dothan, AL</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,12 +13,15 @@
                     colors: {
                         brand: {
                             red: '#dc2626',      // Red 600
+                            redBright: '#ef4444',// Red 500
                             redDark: '#b91c1c',  // Red 700
-                            redLight: '#fee2e2', // Red 100
-                            black: '#09090b',    // Zinc 950
-                            charcoal: '#18181b', // Zinc 900
-                            grayBg: '#f8fafc',   // Slate 50
-                            cardBorder: '#e2e8f0', // Slate 200
+                            redSoft: '#fee2e2',  // Red 100
+                            redTint: '#fef2f2',  // Red 50
+                            dark: '#0f172a',     // Slate 900
+                            slate: '#1e293b',    // Slate 800
+                            muted: '#64748b',    // Slate 500
+                            lightBg: '#f8fafc',  // Slate 50
+                            border: '#e2e8f0',   // Slate 200
                         }
                     },
                     fontFamily: {
@@ -36,9 +39,12 @@
         body {
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
+            color: #0f172a;
         }
-        /* Custom scrollbar hide */
+        .btn-tap:active {
+            transform: scale(0.98);
+        }
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -46,280 +52,381 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        /* Touch active compression effect */
-        .btn-tap:active {
-            transform: scale(0.97);
-        }
     </style>
 </head>
-<body class="text-slate-900 flex justify-center items-start min-h-screen p-0 sm:p-4 md:p-8 selection:bg-red-600 selection:text-white">
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-red selection:text-white">
 
-    <!-- Toast Notification Container -->
-    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 border border-slate-800 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300 opacity-0 pointer-events-none translate-y-[-20px] max-w-[90vw]">
-        <div class="w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center shrink-0">
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-brand-dark border border-slate-700 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300 opacity-0 pointer-events-none translate-y-[-20px] max-w-[90vw]">
+        <div class="w-7 h-7 rounded-full bg-brand-red text-white flex items-center justify-center shrink-0">
             <i id="toast-icon" class="fa-solid fa-check text-xs"></i>
         </div>
         <span id="toast-msg" class="text-xs font-semibold text-slate-100">Action completed!</span>
     </div>
 
-    <!-- Main Mobile Card Wrapper (Constrained width, bright theme) -->
-    <main class="w-full max-w-md bg-white sm:rounded-[36px] border-0 sm:border border-slate-200/80 shadow-2xl overflow-hidden relative flex flex-col min-h-screen sm:min-h-0 my-0 sm:my-auto">
+    <!-- Header / Brand Bar -->
+    <header class="bg-white border-b border-brand-border sticky top-0 z-30 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+            <!-- Brand Logo & Name -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-dark flex flex-col items-center justify-center text-white border border-slate-800 shadow-md">
+                    <i class="fa-solid fa-hard-hat text-brand-red text-lg"></i>
+                    <span class="text-[8px] font-black tracking-tighter uppercase -mt-0.5">PDC</span>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-black text-brand-dark tracking-tight uppercase leading-none">
+                        Phamily Design <span class="text-brand-red">&</span> Construction
+                    </h1>
+                    <p class="text-[10px] sm:text-xs font-bold text-brand-red uppercase tracking-wider mt-0.5">
+                        General Contractor • Dothan, AL
+                    </p>
+                </div>
+            </div>
+
+            <!-- Desktop Header Quick Buttons -->
+            <div class="hidden md:flex items-center gap-2.5">
+                <a href="tel:3345550199" class="btn-tap px-4 py-2 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-brand-red/20 flex items-center gap-2 transition-all">
+                    <i class="fa-solid fa-phone text-xs"></i>
+                    <span>(334) 555-0199</span>
+                </a>
+                <button onclick="scrollToQuote()" class="btn-tap px-4 py-2 rounded-xl bg-brand-dark hover:bg-slate-800 text-white font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 transition-all">
+                    <i class="fa-solid fa-calculator text-brand-redBright text-xs"></i>
+                    <span>Free Estimate</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-grow">
         
-        <!-- Cover Banner Image with Subtle Gradient Overlay -->
-        <div class="relative h-44 w-full bg-slate-900 overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1541888946425-d0fbb18f0923?auto=format&fit=crop&w=800&q=80" alt="Construction Work" class="w-full h-full object-cover opacity-60">
-            <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/40"></div>
+        <!-- Hero Banner Section -->
+        <div class="relative rounded-3xl overflow-hidden bg-brand-dark border border-slate-800 shadow-xl mb-8">
+            <img src="https://images.unsplash.com/photo-1541888946425-d0fbb18f0923?auto=format&fit=crop&w=1600&q=80" alt="Construction Work" class="w-full h-48 sm:h-64 lg:h-72 object-cover opacity-45">
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/80 to-transparent"></div>
             
-            <!-- License & Verification Pill -->
-            <div class="absolute top-4 right-4 bg-slate-950/90 backdrop-blur-md border border-red-500/40 px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-widest flex items-center gap-1.5 shadow-lg">
-                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                Licensed & Insured
+            <div class="absolute inset-0 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+                <div class="flex items-center justify-between">
+                    <span class="inline-flex items-center gap-2 bg-brand-red/90 backdrop-blur-md text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full border border-brand-redBright/40 shadow-lg">
+                        <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                        Accepting New Projects
+                    </span>
+                </div>
+
+                <div class="max-w-xl">
+                    <h2 class="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight uppercase leading-tight">
+                        Building Excellence. <br><span class="text-brand-redBright">Designing Modern Homes.</span>
+                    </h2>
+                    <p class="text-xs sm:text-sm font-medium text-slate-300 mt-2 leading-relaxed max-w-lg hidden sm:block">
+                        From custom home framing to complete interior renovations, we deliver master craftsmanship tailored to your timeline and budget.
+                    </p>
+                </div>
             </div>
         </div>
 
-        <!-- Card Profile Header Content -->
-        <div class="px-5 pb-5 pt-0 relative z-10 -mt-16 flex flex-col items-center text-center">
-            <!-- Brand Logo Avatar -->
-            <div class="w-24 h-24 rounded-3xl bg-slate-900 p-1 shadow-xl shadow-slate-900/10 mb-3 border-2 border-white">
-                <div class="w-full h-full bg-white rounded-[22px] flex flex-col items-center justify-center border border-slate-200 text-slate-900">
-                    <i class="fa-solid fa-hard-hat text-3xl text-red-600"></i>
-                    <span class="text-[9px] font-black tracking-tighter uppercase text-slate-900 mt-0.5">PDC</span>
-                </div>
-            </div>
-
-            <!-- Business Title & Tagline -->
-            <h1 class="text-2xl font-black text-slate-900 tracking-tight leading-tight uppercase">
-                Phamily Design <span class="text-red-600">&</span> Construction
-            </h1>
-            <p class="text-[11px] font-extrabold text-red-600 uppercase tracking-widest mt-1">
-                Residential & Commercial • Dothan, AL
-            </p>
-            <p class="text-xs font-medium text-slate-600 mt-2 max-w-xs leading-relaxed">
-                Premium home remodeling, custom builds, framing, and architectural additions tailored to last.
-            </p>
-
-            <!-- Quick Action Grid (Primary Call-to-Actions) -->
-            <div class="grid grid-cols-2 gap-2.5 w-full mt-6">
-                <!-- Call Now -->
-                <a href="tel:5551234567" class="btn-tap flex items-center justify-center gap-2 py-3.5 px-4 bg-red-600 hover:bg-red-700 text-white font-extrabold rounded-2xl shadow-lg shadow-red-600/25 transition-all text-xs uppercase tracking-wider">
-                    <i class="fa-solid fa-phone text-sm"></i>
-                    <span>Call Now</span>
-                </a>
+        <!-- Main Layout Grid: Responsive 2-Column on Desktop (Left: Bio/Actions, Right: Gallery & Quote) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- LEFT COLUMN (4 cols on lg): Business Profile & Fast Actions -->
+            <div class="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
                 
-                <!-- Text Us -->
-                <a href="sms:5551234567?body=Hi%20Phamily%20Design!%20I%20would%20like%20to%20inquire%20about%20a%20project." class="btn-tap flex items-center justify-center gap-2 py-3.5 px-4 bg-slate-900 hover:bg-slate-800 text-white font-extrabold rounded-2xl shadow-md transition-all text-xs uppercase tracking-wider">
-                    <i class="fa-solid fa-comment-dots text-sm text-red-500"></i>
-                    <span>Text Us</span>
-                </a>
+                <!-- Direct Action Matrix Card -->
+                <div class="bg-white rounded-3xl p-5 sm:p-6 border border-brand-border shadow-sm">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-brand-dark mb-4 flex items-center justify-between">
+                        <span>Direct Connect</span>
+                        <span class="text-brand-red font-bold text-[10px]">Instant Action</span>
+                    </h3>
 
-                <!-- Save Contact (.vcf simulation) -->
-                <button onclick="downloadVCard()" class="btn-tap flex items-center justify-center gap-2 py-3.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-200 rounded-2xl font-bold transition-all text-xs uppercase tracking-wider">
-                    <i class="fa-solid fa-address-card text-red-600 text-sm"></i>
-                    <span>Save Contact</span>
-                </button>
+                    <!-- Quick Action Buttons Grid -->
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <a href="tel:3345550199" class="btn-tap flex items-center justify-center gap-2 py-3.5 px-4 bg-brand-red hover:bg-brand-redDark text-white font-extrabold rounded-2xl shadow-lg shadow-brand-red/20 transition-all text-xs uppercase tracking-wider">
+                            <i class="fa-solid fa-phone text-sm"></i>
+                            <span>Call Now</span>
+                        </a>
 
-                <!-- Request Quote -->
-                <button onclick="openQuoteModal()" class="btn-tap flex items-center justify-center gap-2 py-3.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-900 border border-slate-200 rounded-2xl font-bold transition-all text-xs uppercase tracking-wider">
-                    <i class="fa-solid fa-paper-plane text-red-600 text-sm"></i>
-                    <span>Get Quote</span>
-                </button>
-            </div>
-        </div>
+                        <a href="sms:3345550199?body=Hi%20Phamily%20Design!%20I%20would%20like%20to%20get%20a%20quote." class="btn-tap flex items-center justify-center gap-2 py-3.5 px-4 bg-brand-dark hover:bg-slate-800 text-white font-extrabold rounded-2xl shadow-md transition-all text-xs uppercase tracking-wider">
+                            <i class="fa-solid fa-comment-dots text-sm text-brand-redBright"></i>
+                            <span>Text Us</span>
+                        </a>
 
-        <!-- Section 1: Services Pills -->
-        <div class="px-5 py-4 border-t border-slate-100 bg-slate-50/60">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-[11px] font-black uppercase tracking-widest text-slate-900">Our Expertise</span>
-                <span class="text-[10px] text-red-600 font-bold uppercase tracking-wider">Quality Work</span>
-            </div>
-            
-            <div class="flex flex-wrap gap-2">
-                <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-hammer text-red-600 text-[11px]"></i> Home Remodeling
-                </span>
-                <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-utensils text-red-600 text-[11px]"></i> Kitchen & Bath
-                </span>
-                <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-border-all text-red-600 text-[11px]"></i> Structural Framing
-                </span>
-                <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-tree text-red-600 text-[11px]"></i> Decks & Patios
-                </span>
-                <span class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-building text-red-600 text-[11px]"></i> Commercial Buildouts
-                </span>
-            </div>
-        </div>
+                        <button onclick="downloadVCard()" class="btn-tap flex items-center justify-center gap-2 py-3 px-4 bg-slate-100 hover:bg-slate-200 text-brand-dark border border-brand-border rounded-2xl font-bold transition-all text-xs uppercase tracking-wider">
+                            <i class="fa-solid fa-address-card text-brand-red text-sm"></i>
+                            <span>Save Contact</span>
+                        </button>
 
-        <!-- Section 2: Compact Interactive Project Gallery -->
-        <div class="px-5 py-4 border-t border-slate-100">
-            <div class="flex items-center justify-between mb-3">
-                <span class="text-[11px] font-black uppercase tracking-widest text-slate-900">Recent Projects</span>
-                <span class="text-[10px] text-slate-500 font-semibold">Tap to view</span>
-            </div>
+                        <button onclick="scrollToQuote()" class="btn-tap flex items-center justify-center gap-2 py-3 px-4 bg-slate-100 hover:bg-slate-200 text-brand-dark border border-brand-border rounded-2xl font-bold transition-all text-xs uppercase tracking-wider">
+                            <i class="fa-solid fa-paper-plane text-brand-red text-sm"></i>
+                            <span>Get Estimate</span>
+                        </button>
+                    </div>
 
-            <div class="grid grid-cols-2 gap-2.5">
-                <!-- Gallery Item 1 -->
-                <div onclick="openLightbox('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=80', 'Modern Kitchen Build')" class="group relative rounded-2xl overflow-hidden h-28 bg-slate-900 border border-slate-200 cursor-pointer btn-tap shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=400&q=80" alt="Kitchen Project" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex items-end p-2.5">
-                        <span class="text-[11px] font-extrabold text-white truncate">Kitchen Transformation</span>
+                    <!-- Tap-to-Copy Information Tiles -->
+                    <div class="space-y-2.5 pt-2 border-t border-slate-100">
+                        <div onclick="copyText('(334) 555-0199', 'Phone number copied!')" class="p-3 rounded-2xl bg-brand-lightBg hover:bg-slate-100 border border-brand-border flex items-center justify-between cursor-pointer btn-tap transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-brand-redSoft text-brand-red flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-phone text-xs"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] text-brand-muted font-bold uppercase tracking-wider">Phone</p>
+                                    <p class="text-xs font-black text-brand-dark">(334) 555-0199</p>
+                                </div>
+                            </div>
+                            <i class="fa-regular fa-copy text-slate-400 text-xs"></i>
+                        </div>
+
+                        <div onclick="copyText('info@phamilydesign.com', 'Email address copied!')" class="p-3 rounded-2xl bg-brand-lightBg hover:bg-slate-100 border border-brand-border flex items-center justify-between cursor-pointer btn-tap transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-brand-redSoft text-brand-red flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-envelope text-xs"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] text-brand-muted font-bold uppercase tracking-wider">Email Inquiry</p>
+                                    <p class="text-xs font-black text-brand-dark">info@phamilydesign.com</p>
+                                </div>
+                            </div>
+                            <i class="fa-regular fa-copy text-slate-400 text-xs"></i>
+                        </div>
+
+                        <div class="p-3 rounded-2xl bg-brand-lightBg border border-brand-border space-y-2">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-xl bg-slate-200 text-brand-dark flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-location-dot text-xs text-brand-red"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] text-brand-muted font-bold uppercase tracking-wider">Service Area</p>
+                                    <p class="text-xs font-black text-brand-dark">Dothan, Enterprise, Wiregrass Area</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 pt-2 border-t border-slate-200/60">
+                                <div class="w-8 h-8 rounded-xl bg-slate-200 text-brand-dark flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-clock text-xs text-brand-slate"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] text-brand-muted font-bold uppercase tracking-wider">Working Hours</p>
+                                    <p class="text-xs font-black text-brand-dark">Mon - Fri: 7:00 AM - 6:00 PM</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Gallery Item 2 -->
-                <div onclick="openLightbox('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80', 'Master Bath Remodel')" class="group relative rounded-2xl overflow-hidden h-28 bg-slate-900 border border-slate-200 cursor-pointer btn-tap shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=400&q=80" alt="Bathroom Project" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex items-end p-2.5">
-                        <span class="text-[11px] font-extrabold text-white truncate">Master Suite Bath</span>
+                <!-- Core Capabilities Card -->
+                <div class="bg-white rounded-3xl p-5 sm:p-6 border border-brand-border shadow-sm">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-brand-dark mb-4">Our Specializations</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5">
+                        <div class="p-3 rounded-2xl bg-brand-tint border border-brand-redSoft flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-xl bg-brand-red text-white flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-hammer text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-extrabold text-brand-dark">Full Home Remodeling</h4>
+                                <p class="text-[10px] text-brand-muted font-medium">Kitchens, baths, structural additions</p>
+                            </div>
+                        </div>
+
+                        <div class="p-3 rounded-2xl bg-brand-tint border border-brand-redSoft flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-xl bg-brand-red text-white flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-border-all text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-extrabold text-brand-dark">Framing & Custom Carpentry</h4>
+                                <p class="text-[10px] text-brand-muted font-medium">Heavy timber, trusses, custom builds</p>
+                            </div>
+                        </div>
+
+                        <div class="p-3 rounded-2xl bg-brand-tint border border-brand-redSoft flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-xl bg-brand-red text-white flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-tree text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-extrabold text-brand-dark">Decks & Outdoor Living</h4>
+                                <p class="text-[10px] text-brand-muted font-medium">Composite decks, covered patios</p>
+                            </div>
+                        </div>
+
+                        <div class="p-3 rounded-2xl bg-brand-tint border border-brand-redSoft flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-xl bg-brand-red text-white flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-building text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-extrabold text-brand-dark">Commercial Buildouts</h4>
+                                <p class="text-[10px] text-brand-muted font-medium">Retail, offices, tenant improvements</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Gallery Item 3 -->
-                <div onclick="openLightbox('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80', 'Custom Wood Carpentry')" class="group relative rounded-2xl overflow-hidden h-28 bg-slate-900 border border-slate-200 cursor-pointer btn-tap shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80" alt="Custom Framing" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex items-end p-2.5">
-                        <span class="text-[11px] font-extrabold text-white truncate">Framing & Carpentry</span>
+            <!-- RIGHT COLUMN (7 cols on lg): Interactive Showcase & Direct Quote Form -->
+            <div class="lg:col-span-7 space-y-8">
+                
+                <!-- Project Showcase Gallery -->
+                <div class="bg-white rounded-3xl p-5 sm:p-6 border border-brand-border shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-sm font-black uppercase tracking-widest text-brand-dark">Project Portfolio</h3>
+                            <p class="text-xs font-medium text-brand-muted">Tap any project to inspect photo details</p>
+                        </div>
+                        <span class="text-[10px] font-black uppercase bg-brand-redSoft text-brand-red px-2.5 py-1 rounded-lg">
+                            6 Featured
+                        </span>
+                    </div>
+
+                    <!-- Responsive Portfolio Grid: 2 cols on mobile, 3 cols on tablet/desktop -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        
+                        <!-- Project Item 1 -->
+                        <div onclick="openLightbox('https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=80', 'Modern Kitchen Renovation - Custom Quartz & Cabinetry')" class="group relative rounded-2xl overflow-hidden h-36 sm:h-40 bg-brand-dark border border-brand-border cursor-pointer btn-tap shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=500&q=80" alt="Kitchen Project" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent flex flex-col justify-end p-3">
+                                <span class="text-[9px] font-bold text-brand-redBright uppercase tracking-widest">Kitchen</span>
+                                <span class="text-xs font-black text-white leading-tight truncate">Modern Renovation</span>
+                            </div>
+                        </div>
+
+                        <!-- Project Item 2 -->
+                        <div onclick="openLightbox('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80', 'Luxury Master Bath Spa - Custom Tile & Frameless Glass')" class="group relative rounded-2xl overflow-hidden h-36 sm:h-40 bg-brand-dark border border-brand-border cursor-pointer btn-tap shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=500&q=80" alt="Bathroom Project" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent flex flex-col justify-end p-3">
+                                <span class="text-[9px] font-bold text-brand-redBright uppercase tracking-widest">Bathroom</span>
+                                <span class="text-xs font-black text-white leading-tight truncate">Master Suite Bath</span>
+                            </div>
+                        </div>
+
+                        <!-- Project Item 3 -->
+                        <div onclick="openLightbox('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80', 'Structural Framing & Wood Customization')" class="group relative rounded-2xl overflow-hidden h-36 sm:h-40 bg-brand-dark border border-brand-border cursor-pointer btn-tap shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=500&q=80" alt="Framing Project" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent flex flex-col justify-end p-3">
+                                <span class="text-[9px] font-bold text-brand-redBright uppercase tracking-widest">Structural</span>
+                                <span class="text-xs font-black text-white leading-tight truncate">Custom Carpentry</span>
+                            </div>
+                        </div>
+
+                        <!-- Project Item 4 -->
+                        <div onclick="openLightbox('https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=1200&q=80', 'Covered Timber Deck & Pergola Addition')" class="group relative rounded-2xl overflow-hidden h-36 sm:h-40 bg-brand-dark border border-brand-border cursor-pointer btn-tap shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=500&q=80" alt="Outdoor Deck" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent flex flex-col justify-end p-3">
+                                <span class="text-[9px] font-bold text-brand-redBright uppercase tracking-widest">Outdoor</span>
+                                <span class="text-xs font-black text-white leading-tight truncate">Deck & Patio Deck</span>
+                            </div>
+                        </div>
+
+                        <!-- Project Item 5 -->
+                        <div onclick="openLightbox('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80', 'Commercial Office Buildout & Interior Partitioning')" class="group relative rounded-2xl overflow-hidden h-36 sm:h-40 bg-brand-dark border border-brand-border cursor-pointer btn-tap shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=500&q=80" alt="Commercial Project" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent flex flex-col justify-end p-3">
+                                <span class="text-[9px] font-bold text-brand-redBright uppercase tracking-widest">Commercial</span>
+                                <span class="text-xs font-black text-white leading-tight truncate">Office Interior</span>
+                            </div>
+                        </div>
+
+                        <!-- Project Item 6 -->
+                        <div onclick="openLightbox('https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80', 'Custom Living Space Architectural Expansion')" class="group relative rounded-2xl overflow-hidden h-36 sm:h-40 bg-brand-dark border border-brand-border cursor-pointer btn-tap shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=500&q=80" alt="Living Expansion" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent flex flex-col justify-end p-3">
+                                <span class="text-[9px] font-bold text-brand-redBright uppercase tracking-widest">Addition</span>
+                                <span class="text-xs font-black text-white leading-tight truncate">Home Expansion</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Gallery Item 4 -->
-                <div onclick="openLightbox('https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=1200&q=80', 'Outdoor Custom Deck')" class="group relative rounded-2xl overflow-hidden h-28 bg-slate-900 border border-slate-200 cursor-pointer btn-tap shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=400&q=80" alt="Decking" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex items-end p-2.5">
-                        <span class="text-[11px] font-extrabold text-white truncate">Deck & Outdoor</span>
+                <!-- Integrated Fast Quote Request Form -->
+                <div id="quote-section" class="bg-white rounded-3xl p-6 sm:p-8 border border-brand-border shadow-sm scroll-mt-28">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+                        <div>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-brand-red">No Obligation</span>
+                            <h3 class="text-lg sm:text-xl font-black uppercase tracking-tight text-brand-dark">Request A Free Estimate</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-2xl bg-brand-redSoft text-brand-red flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-calculator text-base"></i>
+                        </div>
                     </div>
+
+                    <form id="desktop-quote-form" onsubmit="submitQuote(event)" class="space-y-4">
+                        <!-- Service Pills Selector -->
+                        <div>
+                            <label class="block text-[10px] font-black uppercase tracking-wider text-brand-dark mb-2">Project Type</label>
+                            <div class="flex flex-wrap gap-2" id="service-pills">
+                                <button type="button" onclick="selectPill(this)" class="pill-btn px-3.5 py-2 rounded-xl border border-brand-red bg-brand-red text-white text-xs font-bold transition-all">Full Remodel</button>
+                                <button type="button" onclick="selectPill(this)" class="pill-btn px-3.5 py-2 rounded-xl border border-brand-border bg-brand-lightBg text-brand-dark hover:border-brand-red text-xs font-bold transition-all">Kitchen/Bath</button>
+                                <button type="button" onclick="selectPill(this)" class="pill-btn px-3.5 py-2 rounded-xl border border-brand-border bg-brand-lightBg text-brand-dark hover:border-brand-red text-xs font-bold transition-all">Framing/Structure</button>
+                                <button type="button" onclick="selectPill(this)" class="pill-btn px-3.5 py-2 rounded-xl border border-brand-border bg-brand-lightBg text-brand-dark hover:border-brand-red text-xs font-bold transition-all">Deck/Outdoor</button>
+                                <button type="button" onclick="selectPill(this)" class="pill-btn px-3.5 py-2 rounded-xl border border-brand-border bg-brand-lightBg text-brand-dark hover:border-brand-red text-xs font-bold transition-all">Commercial</button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-black uppercase tracking-wider text-brand-dark mb-1">Your Full Name *</label>
+                                <input type="text" required placeholder="John Doe" class="w-full bg-brand-lightBg border border-brand-border rounded-xl px-4 py-3 text-xs text-brand-dark focus:outline-none focus:border-brand-red focus:bg-white font-medium transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-black uppercase tracking-wider text-brand-dark mb-1">Phone Number *</label>
+                                <input type="tel" required placeholder="(334) 555-0199" class="w-full bg-brand-lightBg border border-brand-border rounded-xl px-4 py-3 text-xs text-brand-dark focus:outline-none focus:border-brand-red focus:bg-white font-medium transition-colors">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-black uppercase tracking-wider text-brand-dark mb-1">Email Address (Optional)</label>
+                            <input type="email" placeholder="john@example.com" class="w-full bg-brand-lightBg border border-brand-border rounded-xl px-4 py-3 text-xs text-brand-dark focus:outline-none focus:border-brand-red focus:bg-white font-medium transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-black uppercase tracking-wider text-brand-dark mb-1">Project Details / Scope</label>
+                            <textarea rows="3" placeholder="Tell us about your project timeline, desired budget, or special requests..." class="w-full bg-brand-lightBg border border-brand-border rounded-xl px-4 py-3 text-xs text-brand-dark focus:outline-none focus:border-brand-red focus:bg-white font-medium transition-colors"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-tap w-full py-4 bg-brand-red hover:bg-brand-redDark text-white font-black rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-brand-red/20 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                            <span>Submit Estimate Request</span>
+                        </button>
+                    </form>
                 </div>
+
             </div>
-        </div>
-
-        <!-- Section 3: Tap-to-Copy Info Cards -->
-        <div class="px-5 py-4 border-t border-slate-100 bg-slate-50/60 space-y-2.5">
-            <span class="text-[11px] font-black uppercase tracking-widest text-slate-900 block mb-1">Direct Info</span>
-            
-            <!-- Phone Tile -->
-            <div onclick="copyText('(555) 123-4567', 'Phone number copied!')" class="p-3.5 rounded-2xl bg-white border border-slate-200/90 flex items-center justify-between cursor-pointer btn-tap shadow-sm">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-red-100 text-red-600 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-phone text-sm"></i>
-                    </div>
-                    <div>
-                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Direct Phone</p>
-                        <p class="text-xs font-black text-slate-900">(555) 123-4567</p>
-                    </div>
-                </div>
-                <i class="fa-regular fa-copy text-slate-400 text-xs"></i>
-            </div>
-
-            <!-- Email Tile -->
-            <div onclick="copyText('info@phamilydesign.com', 'Email address copied!')" class="p-3.5 rounded-2xl bg-white border border-slate-200/90 flex items-center justify-between cursor-pointer btn-tap shadow-sm">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-red-100 text-red-600 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-envelope text-sm"></i>
-                    </div>
-                    <div>
-                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Email Inquiry</p>
-                        <p class="text-xs font-black text-slate-900">info@phamilydesign.com</p>
-                    </div>
-                </div>
-                <i class="fa-regular fa-copy text-slate-400 text-xs"></i>
-            </div>
-
-            <!-- Service Location & Hours -->
-            <div class="p-3.5 rounded-2xl bg-white border border-slate-200/90 space-y-2.5 shadow-sm">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-900 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-location-dot text-sm text-red-600"></i>
-                    </div>
-                    <div>
-                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Service Location</p>
-                        <p class="text-xs font-black text-slate-900">Dothan, AL & Surrounding Areas</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
-                    <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-900 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-clock text-sm text-slate-700"></i>
-                    </div>
-                    <div>
-                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Working Hours</p>
-                        <p class="text-xs font-black text-slate-900">Mon - Fri: 7:00 AM - 6:00 PM</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer / QR Share Prompt -->
-        <div class="px-5 py-6 border-t border-slate-200 bg-slate-950 text-white text-center mt-auto">
-            <div class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 border border-slate-700 text-red-500 text-sm mb-2">
-                <i class="fa-solid fa-qrcode"></i>
-            </div>
-            <p class="text-xs font-black uppercase tracking-wider text-white">Phamily Design & Construction</p>
-            <p class="text-[10px] text-slate-400 mt-0.5">Lic #PDC-99281-AL • Bonded & Fully Insured</p>
         </div>
     </main>
 
-    <!-- Modal 1: Lead Capture / Quick Quote Drawer -->
-    <div id="quote-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center hidden transition-opacity">
-        <div class="bg-white border-t sm:border border-slate-200 w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl space-y-4 animate-in slide-in-from-bottom duration-300 max-h-[90vh] overflow-y-auto text-slate-900">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div>
-                    <h3 class="text-lg font-black uppercase tracking-tight text-slate-900">Request A Quote</h3>
-                    <p class="text-xs font-semibold text-red-600">Fast response guaranteed</p>
-                </div>
-                <button onclick="closeQuoteModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center text-sm">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+    <!-- Footer -->
+    <footer class="bg-brand-dark border-t border-slate-800 text-white mt-12 py-8 px-4 sm:px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+            <div>
+                <p class="text-xs font-black uppercase tracking-widest text-white">Phamily Design & Construction</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">General Contractor • Dothan, Alabama</p>
             </div>
 
-            <form id="quote-form" onsubmit="submitQuote(event)" class="space-y-3.5">
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-1">Your Name *</label>
-                    <input type="text" required placeholder="John Doe" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-red-600 focus:bg-white font-medium">
-                </div>
-
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-1">Phone Number *</label>
-                    <input type="tel" required placeholder="(334) 555-0199" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-red-600 focus:bg-white font-medium">
-                </div>
-
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-1">Service Needed</label>
-                    <select class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-red-600 focus:bg-white font-semibold">
-                        <option>Home Remodeling</option>
-                        <option>Kitchen & Bath Renovation</option>
-                        <option>Structural Framing</option>
-                        <option>Custom Deck & Outdoor Living</option>
-                        <option>Commercial Buildout</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-wider text-slate-700 mb-1">Project Details</label>
-                    <textarea rows="3" placeholder="Describe your timeline or project goals..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-red-600 focus:bg-white font-medium"></textarea>
-                </div>
-
-                <button type="submit" class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-black rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-red-600/25">
-                    Submit Quote Request
-                </button>
-            </form>
+            <p class="text-[10px] text-slate-500">© 2026 Phamily Design & Construction. All rights reserved.</p>
         </div>
-    </div>
+    </footer>
 
-    <!-- Modal 2: Lightbox Modal -->
+    <!-- Lightbox Modal -->
     <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-4 hidden">
-        <button onclick="closeLightbox()" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center text-lg z-10 hover:bg-white/30">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center text-lg z-10 hover:bg-white/30 transition-colors">
             <i class="fa-solid fa-xmark"></i>
         </button>
-        <div class="max-w-md w-full text-center">
-            <img id="lightbox-img" src="" alt="Project View" class="w-full h-auto max-h-[70vh] object-contain rounded-2xl shadow-2xl border border-white/20">
+        <div class="max-w-3xl w-full text-center">
+            <img id="lightbox-img" src="" alt="Project View" class="w-full h-auto max-h-[75vh] object-contain rounded-2xl shadow-2xl border border-white/20">
             <p id="lightbox-caption" class="text-xs font-extrabold uppercase tracking-wider text-white mt-4 px-2"></p>
         </div>
     </div>
 
+    <!-- Mobile Fixed Floating Action Bar -->
+    <div class="md:hidden fixed bottom-4 left-4 right-4 z-40 bg-brand-dark/95 backdrop-blur-md border border-slate-800 p-2 rounded-2xl shadow-2xl flex items-center gap-2">
+        <a href="tel:3345550199" class="btn-tap flex-1 py-3 bg-brand-red text-white text-center font-extrabold rounded-xl text-xs uppercase tracking-wider shadow-md">
+            <i class="fa-solid fa-phone mr-1"></i> Call
+        </a>
+        <a href="sms:3345550199" class="btn-tap flex-1 py-3 bg-slate-800 text-white text-center font-extrabold rounded-xl text-xs uppercase tracking-wider border border-slate-700">
+            <i class="fa-solid fa-comment text-brand-redBright mr-1"></i> Text
+        </a>
+        <button onclick="scrollToQuote()" class="btn-tap flex-1 py-3 bg-white text-brand-dark text-center font-extrabold rounded-xl text-xs uppercase tracking-wider">
+            Estimate
+        </button>
+    </div>
+
     <!-- JavaScript Handlers -->
     <script>
-        // Copy to clipboard helper
+        // Copy to Clipboard with toast fallback
         function copyText(text, successMsg) {
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(text).then(() => {
@@ -364,16 +471,16 @@
             }, 2600);
         }
 
-        // vCard download simulation
+        // Download vCard File
         function downloadVCard() {
             const vCardData = `BEGIN:VCARD
 VERSION:3.0
 FN:Phamily Design and Construction
 ORG:Phamily Design & Construction
-TEL;TYPE=CELL,VOICE:(555) 123-4567
+TEL;TYPE=CELL,VOICE:(334) 555-0199
 EMAIL:info@phamilydesign.com
 ADR;TYPE=WORK:;;Dothan;AL;;;
-NOTE:Residential & Commercial Construction | Remodeling & Custom Carpentry
+NOTE:Licensed General Contractor | Remodeling, Framing, and Additions
 END:VCARD`;
 
             const blob = new Blob([vCardData], { type: 'text/vcard' });
@@ -386,26 +493,33 @@ END:VCARD`;
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
 
-            showToast('Contact card downloaded!', 'fa-address-card');
+            showToast('vCard contact saved!', 'fa-address-card');
         }
 
-        // Modal Controls
-        function openQuoteModal() {
-            document.getElementById('quote-modal').classList.remove('hidden');
+        // Scroll helper for quote section
+        function scrollToQuote() {
+            document.getElementById('quote-section').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function closeQuoteModal() {
-            document.getElementById('quote-modal').classList.add('hidden');
+        // Service pill selector logic
+        function selectPill(btn) {
+            const pills = document.querySelectorAll('.pill-btn');
+            pills.forEach(p => {
+                p.classList.remove('bg-brand-red', 'text-white', 'border-brand-red');
+                p.classList.add('bg-brand-lightBg', 'text-brand-dark', 'border-brand-border');
+            });
+            btn.classList.remove('bg-brand-lightBg', 'text-brand-dark', 'border-brand-border');
+            btn.classList.add('bg-brand-red', 'text-white', 'border-brand-red');
         }
 
+        // Submit quote mock
         function submitQuote(e) {
             e.preventDefault();
-            closeQuoteModal();
-            document.getElementById('quote-form').reset();
-            showToast('Quote request sent! We will contact you soon.', 'fa-paper-plane');
+            document.getElementById('desktop-quote-form').reset();
+            showToast('Estimate request received! We will contact you shortly.', 'fa-paper-plane');
         }
 
-        // Lightbox Handlers
+        // Lightbox Modal Controls
         function openLightbox(src, caption) {
             document.getElementById('lightbox-img').src = src;
             document.getElementById('lightbox-caption').innerText = caption;
