@@ -81,11 +81,9 @@
                     </p>
                 </div>
             </div>
-        </div>
-    </header>
 
             <!-- Desktop Header Quick Buttons -->
-            <div class="hidden md:flex items-center justify-center flex-1 gap-2.5">
+            <div class="hidden md:flex items-center justify-center gap-2.5">
                 <a href="tel:3343331967" class="btn-tap px-4 py-2 rounded-xl bg-brand-red hover:bg-brand-redDark text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-brand-red/20 flex items-center gap-2 transition-all">
                     <i class="fa-solid fa-phone text-xs"></i>
                     <span>(334) 333-1967</span>
@@ -95,6 +93,8 @@
                     <span>Free Estimate</span>
                 </button>
             </div>
+        </div>
+    </header>
 
     <!-- Main Container -->
     <main class="max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-grow">
@@ -106,7 +106,7 @@
             
             <div class="absolute inset-0 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
                 <div class="flex items-center justify-between">
-                    <span class="inline-flex items-center gap-2 bg-brand-red/90 backdrop-blur-md text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full border border-brand-redBright/40 shadow-lg">
+                    <span class="inline-flex items-center gap-2 bg-brand-red/95 backdrop-blur-md text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full border border-brand-redBright/40 shadow-lg">
                         <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
                         Accepting New Projects
                     </span>
@@ -123,10 +123,10 @@
             </div>
         </div>
 
-        <!-- Main Layout Grid: Responsive 2-Column on Desktop (Left: Bio/Actions, Right: Gallery & Quote) -->
+        <!-- Main Layout Grid: Responsive 2-Column on Desktop -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- LEFT COLUMN (4 cols on lg): Business Profile & Fast Actions -->
+            <!-- LEFT COLUMN (5 cols on lg): Business Profile & Fast Actions -->
             <div class="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
                 
                 <!-- Direct Action Matrix Card -->
@@ -246,6 +246,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
             <!-- RIGHT COLUMN (7 cols on lg): Interactive Showcase & Direct Quote Form -->
             <div class="lg:col-span-7 space-y-8">
@@ -262,7 +263,7 @@
                         </span>
                     </div>
 
-                    <!-- Responsive Portfolio Grid: 2 cols on mobile, 3 cols on tablet/desktop -->
+                    <!-- Responsive Portfolio Grid -->
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         
                         <!-- Project Item 1 -->
@@ -417,7 +418,6 @@
 
     <!-- JavaScript Handlers -->
     <script>
-        // Copy to Clipboard with toast fallback
         function copyText(text, successMsg) {
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(text).then(() => {
@@ -444,81 +444,77 @@
             document.body.removeChild(tempInput);
         }
 
-        // Show Toast Notification
         function showToast(message, iconClass = 'fa-check') {
             const toast = document.getElementById('toast');
-            const msgEl = document.getElementById('toast-msg');
-            const iconEl = document.getElementById('toast-icon');
-
-            msgEl.innerText = message;
-            iconEl.className = `fa-solid ${iconClass} text-xs`;
-
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = document.getElementById('toast-icon');
+            
+            toastMsg.textContent = message;
+            toastIcon.className = 'fa-solid ' + iconClass + ' text-xs';
+            
             toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
             toast.classList.add('opacity-100', 'translate-y-0');
-
+            
             setTimeout(() => {
-                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
                 toast.classList.remove('opacity-100', 'translate-y-0');
-            }, 2600);
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+            }, 3000);
         }
 
-        // Download vCard File
-        function downloadVCard() {
-            const vCardData = `BEGIN:VCARD
-VERSION:3.0
-FN:Phamily Design and Construction
-ORG:Phamily Design & Construction
-TEL;TYPE=CELL,VOICE:(334) 333-1967
-EMAIL:tonipham@phamilydc.com
-ADR;TYPE=WORK:;;Dothan;AL;;;
-NOTE:Licensed General Contractor | Remodeling, Framing, and Additions
-END:VCARD`;
-
-            const blob = new Blob([vCardData], { type: 'text/vcard' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Phamily_Design_Construction.vcf';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-
-            showToast('vCard contact saved!', 'fa-address-card');
-        }
-
-        // Scroll helper for quote section
         function scrollToQuote() {
-            document.getElementById('quote-section').scrollIntoView({ behavior: 'smooth' });
+            const quoteSection = document.getElementById('quote-section');
+            quoteSection.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Service pill selector logic
-        function selectPill(btn) {
-            const pills = document.querySelectorAll('.pill-btn');
-            pills.forEach(p => {
-                p.classList.remove('bg-brand-red', 'text-white', 'border-brand-red');
-                p.classList.add('bg-brand-lightBg', 'text-brand-dark', 'border-brand-border');
-            });
-            btn.classList.remove('bg-brand-lightBg', 'text-brand-dark', 'border-brand-border');
-            btn.classList.add('bg-brand-red', 'text-white', 'border-brand-red');
-        }
-
-        // Submit quote mock
-        function submitQuote(e) {
-            e.preventDefault();
-            document.getElementById('desktop-quote-form').reset();
-            showToast('Estimate request received! We will contact you shortly.', 'fa-paper-plane');
-        }
-
-        // Lightbox Modal Controls
         function openLightbox(src, caption) {
-            document.getElementById('lightbox-img').src = src;
-            document.getElementById('lightbox-caption').innerText = caption;
-            document.getElementById('lightbox-modal').classList.remove('hidden');
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-img');
+            const cap = document.getElementById('lightbox-caption');
+            
+            img.src = src;
+            cap.textContent = caption;
+            modal.classList.remove('hidden');
         }
 
         function closeLightbox() {
-            document.getElementById('lightbox-modal').classList.add('hidden');
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.add('hidden');
+        }
+
+        function selectPill(button) {
+            const pills = document.querySelectorAll('.pill-btn');
+            pills.forEach(p => {
+                p.classList.remove('border-brand-red', 'bg-brand-red', 'text-white');
+                p.classList.add('border-brand-border', 'bg-brand-lightBg', 'text-brand-dark');
+            });
+            button.classList.remove('border-brand-border', 'bg-brand-lightBg', 'text-brand-dark');
+            button.classList.add('border-brand-red', 'bg-brand-red', 'text-white');
+        }
+
+        function downloadVCard() {
+            const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Phamily Design & Construction
+ORG:Phamily Design & Construction
+TEL;TYPE=WORK,VOICE:334-333-1967
+EMAIL;TYPE=WORK:tonipham@phamilydc.com
+ADR;TYPE=WORK:;;Dothan;AL;;;United States
+END:VCARD`;
+            const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'PhamilyDesignConstruction.vcf');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Contact card downloaded!', 'fa-address-card');
+        }
+
+        function submitQuote(event) {
+            event.preventDefault();
+            showToast('Estimate request sent successfully!', 'fa-paper-plane');
+            document.getElementById('desktop-quote-form').reset();
         }
     </script>
 </body>
